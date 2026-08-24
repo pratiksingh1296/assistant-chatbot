@@ -45,9 +45,7 @@ get_agent_executor()
 # User Authentication / User Session Setup
 # ==================================================
 
-# ==================================================
 # User Profile
-# ==================================================
 
 def store_user_profile(user_id):
     """
@@ -219,7 +217,7 @@ with st.sidebar:
 
 st.title("🤖 Assistant Chatbot")
 st.markdown(f"**Current Chat:** `{st.session_state.current_session}`")
-st.caption("Powered by Llama 3.3 · pgvector · LangChain")
+st.caption("Powered by GPT · pgvector · LangChain")
 
 
 # ==================================================

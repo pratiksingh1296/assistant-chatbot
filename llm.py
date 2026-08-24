@@ -51,6 +51,7 @@ os.environ["TAVILY_API_KEY"] = tavily_api_key
 # Prompts
 # ==================================================
 
+# Date Helper
 def get_today():
     """
     Returns current date in a human-readable format.
@@ -60,6 +61,7 @@ def get_today():
         "weekday": datetime.now().strftime("%A")
     }
 
+# Actual Prompt Template
 prompt = ChatPromptTemplate.from_messages([
     ("system", f"""
 
@@ -106,7 +108,21 @@ prompt = ChatPromptTemplate.from_messages([
     - only reference memory when it is genuinely relevant
     - do not invent memories or claim the user mentioned something unless it appears in retrieved memory context
 
-    Keep responses clear, concise, and helpful.
+    Response Style:
+
+    - Default to concise responses.
+    - Answer the user's question directly before adding extra information.
+    - Do not infer that the user wants exhaustive information.
+    - Answer only what was asked.
+    - If a complete answer would require substantial detail, provide a concise answer first and offer to expand if the user requests it.
+    - Aim for 50-200 words for most responses.
+    - Longer responses are appropriate only when the user explicitly requests detailed explanations, guides, or tutorials.
+    - Do not provide long tutorials, meal plans, recipes, tables, or step-by-step guides unless the user explicitly asks.
+    - Use bullets only when they improve readability.
+    - Avoid markdown tables unless they significantly improve clarity or the user requests them.
+    - Do not restate the user's question unless it improves clarity.
+    - Do not introduce related topics unless they are necessary to answer the user's question.
+    - If the user asks for recommendations, provide 3-5 strong suggestions rather than exhaustive lists.
     """),
     MessagesPlaceholder(variable_name="chat_history"),
     ("human", "{input}"),
@@ -123,9 +139,9 @@ def get_llm():
 
     return ChatGroq(
         api_key=groq_api_key,
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         temperature=0.1,
-        max_tokens=1024,
+        max_tokens=2048,
         timeout=30,
         max_retries=3
     )
@@ -136,7 +152,7 @@ def get_fast_llm():
 
     return ChatGroq(
         api_key=groq_api_key,
-        model="llama-3.1-8b-instant",
+        model="openai/gpt-oss-20b",
         temperature=0.1,
         max_tokens=512,
         timeout=30,

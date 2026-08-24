@@ -11,7 +11,7 @@ import os
 # 3rd Party Imports
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
-from llm import get_llm, get_fast_llm
+from llm import get_fast_llm
 from utils import debug_print
 import streamlit as st
 
@@ -112,7 +112,8 @@ def add_to_memory(user_id: str, text: str, session_id: str):
                     ''', (user_id, session_id, chunk, embedding, time.time()) )
                 
                 c.execute("SELECT COUNT(*) FROM chat_memory WHERE user_id = %s", (user_id,))
-                count = c.fetchone()[0]
+                row = c.fetchone()
+                count = row[0] if row else 0
                 debug_print(f"MEMORIES FOR {user_id}: {count}")
 
 # Retrieve Memory
@@ -345,7 +346,11 @@ def extract_and_store_facts(user_id: str, user_message: str, session_id: str):
 """
 
     try:
-        raw = llm.invoke(extraction_prompt).content.strip()
+        response = llm.invoke(extraction_prompt)
+        raw = response.content
+        
+        if not isinstance(raw, str):
+            raw = str(raw)
         debug_print("FACT EXTRACTION RAW:", raw)
 
         raw = re.sub(r"```json|```", "", raw).strip()
