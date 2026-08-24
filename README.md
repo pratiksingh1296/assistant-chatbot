@@ -4,7 +4,7 @@ Built as an AI engineering portfolio project exploring retrieval-augmented gener
 
 An AI-powered conversational assistant featuring semantic memory retrieval, structured fact extraction, conversation summarization, multi-session chat management, and real-time web search integration.
 
-Built using Llama 3.3, LangChain, pgvector, Tavily Search, Streamlit, and PostgreSQL.
+Built using GPT-OSS, LangChain, pgvector, Tavily Search, Streamlit, and PostgreSQL.
 
 ---
 
@@ -35,6 +35,7 @@ Built using Llama 3.3, LangChain, pgvector, Tavily Search, Streamlit, and Postgr
 ---
 
 # Project Overview
+
 This project demonstrates building a context-aware AI assistant capable of:
 - remembering relevant information across conversations,
 - retrieving real-time web information,
@@ -136,19 +137,20 @@ context-aware-ai-assistant/
 # Recent Improvements
 
 ## Intelligent Model Routing
-To reduce latency & inference costs, the assitant uses multiple LLMs based on task complexity.
 
-* Fast model for:
-  - Chat title generation
-  - Fact extraction
-  - Conversation summarization
+To reduce latency and API usage, the assistant uses multiple Groq-hosted LLMs based on task complexity, balancing response quality, latency, and API usage.
 
-* Large model for:
-  - User-facing conversations
-  - Reasoning heavy responses
-  - Tool augmented agent execution
+**GPT-OSS-20B — Fast model for:**
+- Chat title generation
+- Fact extraction
+- Conversation summarization
 
-This significantly improves responsiveness while maintaining response quality.
+**GPT-OSS-120B — Large model for:**
+- User-facing conversations
+- Reasoning-heavy responses
+- Tool-augmented agent execution
+
+This task-based routing improves responsiveness and reduces unnecessary use of the larger model while maintaining response quality.
 
 ## Memory Conflict Resolution
 
@@ -309,7 +311,7 @@ Summary Update
 
 | Component              | Technology                          |
 | ---------------------- | ----------------------------------- |
-| LLM                    | Llama 3.3 (llama-3.3-70b-versatile) |
+| LLM                    | GPT-OSS-120B + GPT-OSS-20B          |
 | Inference API          | Groq API                            |
 | Framework              | LangChain                           |
 | Vector Database        | pgvector (PostgreSQL)               |

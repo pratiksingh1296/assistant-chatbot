@@ -217,7 +217,7 @@ with st.sidebar:
 
 st.title("🤖 Assistant Chatbot")
 st.markdown(f"**Current Chat:** `{st.session_state.current_session}`")
-st.caption("Powered by GPT · pgvector · LangChain")
+st.caption("Powered by Groq · LangChain · PostgreSQL + pgvector")
 
 
 # ==================================================
